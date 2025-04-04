@@ -1,0 +1,161 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+body .bannercontainer {
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+body .bannercontainer img {
+  display: block;
+  width: 100%;
+  height: 50vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in forwards;
+  filter: brightness(0.8);
+}
+body .bannercontainer .text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body .bannercontainer .text-container h1 {
+  font-family: "LXGW WenKai TC";
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards 0.5s;
+  background: linear-gradient(45deg, #f8efed, #fcfcfb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+body .bannercontainer .text-container p {
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards 0.5s;
+  letter-spacing: 1px;
+  background: linear-gradient(45deg, #f8efed, #fcfcfb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+body .bannercontainer .text-container .button-container {
+  display: flex;
+  gap: 15px;
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards 1s;
+}
+body .bannercontainer .text-container .button-container .btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+body .bannercontainer .text-container .button-container .btn-login {
+  background: #007bff;
+  color: white;
+}
+body .bannercontainer .text-container .button-container .btn-register {
+  background: #28a745;
+  color: white;
+}
+body .bannercontainer .text-container .button-container .btn-login:hover,
+body .bannercontainer .text-container .button-container .btn-register:hover {
+  opacity: 0.8;
+}
+body main section.medicine-log {
+  padding: 2rem;
+}
+body main section.medicine-log h2 {
+  text-align: center;
+}
+body main section.medicine-log div.input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 1rem;
+}
+body main section.medicine-log div.input-group input {
+  width: 200px;
+  padding: 12px;
+  font-size: 1rem;
+  text-align: center;
+  border: 2px solid #f4b5b7;
+  border-radius: 15px; /* 圓角 */
+  outline: none;
+  color: rgba(29, 27, 154, 0.6862745098);
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+body main section.medicine-log div.input-group :focus {
+  border-color: #ff4081; /* 亮粉色邊框 */
+  box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+  transform: scale(1.05); /* 輕微放大 */
+}
+body main section.medicine-log div.input-group #record-btn {
+  background: rgba(126, 179, 235, 0.7960784314);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 15px 30px;
+  border-radius: 20px;
+  cursor: grabbing;
+  box-shadow: 0 5px 10px rgba(100, 54, 63, 0.3);
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+body main section.medicine-log div.input-group #record-btn :hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 15px rgba(255, 105, 135, 0.5);
+}
+body main section.medicine-log div.input-group #record-btn :active {
+  transform: scale(0.95);
+  box-shadow: 0 4px 8px rgba(255, 105, 135, 0.5);
+}
+body main section.medicine-log div.input-group #clock {
+  font-weight: bold;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: rgb(173, 128, 128);
+  text-align: center;
+  animation: bounce 1.5s infinite ease-in-out;
+}/*# sourceMappingURL=index.css.map */
