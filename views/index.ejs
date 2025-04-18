@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>健康網站</title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+  <style>
+    li {
+      list-style-type: none;
+    }
+  </style>
+  <body>
+    <header class="bannercontainer">
+      <img src="../img/pero-kalimero-9BJRGlqoIUk-unsplash.jpg" alt="封面圖片" />
+
+      <div class="text-container">
+        <h1>養成習慣，從現在開始</h1>
+        <p>Healthy habits, happier life</p>
+
+        <div class="button-container">
+          <% if (!username) { %>
+          <a href="/login"><button class="btn btn-login">會員登入</button></a>
+          <a href="/register"
+            ><button class="btn btn-register">註冊會員</button></a
+          >
+          <% } else { %>
+          <span class="welcome-msg"><%= username %>，歡迎您！</span>
+          <a href="/logout"><button class="btn btn-logout">登出</button></a>
+          <% } %>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="medicine-log">
+        <h2 id="greeting"></h2>
+        <div class="input-group">
+          <input type="text" id="medicine-name" placeholder="輸入藥物名稱" />
+          <button id="record-btn">我要紀錄</button>
+          <div id="clock">00:00:00</div>
+        </div>
+
+        <ul id="medicine-list">
+          <!-- 吃藥紀錄會顯示在這裡 -->
+        </ul>
+      </section>
+    </main>
+    <footer></footer>
+    <script>
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   const loginBtn = document.querySelector(".btn-login");
+      //   const mainSection = document.querySelector("main");
+      //   const greeting = document.getElementById("greeting");
+
+      //   loginBtn.onclick = function () {
+      //     if (loginBtn.textContent === "會員登入") {
+      //       let username = prompt("請輸入您的使用者名稱");
+      //       if (!username) {
+      //         alert("請輸入名稱!");
+      //         return;
+      //       } //有輸入名稱才會執行下面程式碼
+      //       localStorage.setItem("username", username.trim()); // 儲存使用者資料
+      //       greeting.textContent = `${username.trim()}，您好！這是您的用藥紀錄`;
+      //       mainSection.style.display = "block";
+      //       loginBtn.textContent = "會員登出";
+      //     } else {
+      //       localStorage.removeItem("username");
+      //       //mainSection.style.display = "none";
+      //       greeting.textContent = "您好，請先登入再使用";
+      //       loginBtn.textContent = "會員登入";
+      //     }
+      //   };
+      //   //確認登入狀態
+      //   const saveName = localStorage.getItem("username");
+      //   console.log(saveName);
+      //   if (saveName) {
+      //     greeting.textContent = `${saveName}，您好！這是您的用藥紀錄`;
+      //     mainSection.style.display = "block";
+      //     loginBtn.textContent = "會員登出";
+      //   }
+      //時間
+      function time() {
+        const nowTime = new Date();
+        //console.log(nowTime);
+        const years = String(nowTime.getFullYear());
+        const hours = String(nowTime.getHours()).padStart(2, "0"); //確保是二位數 如果沒有 前面補0
+        const minutes = String(nowTime.getMinutes()).padStart(2, "0");
+        const seconds = String(nowTime.getSeconds()).padStart(2, "0");
+        const timeString = `${years}年${hours}:${minutes}:${seconds}`;
+        clock.textContent = timeString;
+      }
+      setInterval(time, 1000);
+      // time();
+
+      //紀錄
+      $(document).ready(function () {
+        $("#record-btn").on("click", function () {
+          const medname = $("#medicine-name").val().trim(); //取得輸入框的值
+          console.log(medname);
+          if (medname === "") {
+            alert("請輸入藥品名稱!");
+            return;
+          }
+          //取得現在時間
+          const now = new Date();
+
+          const years = String(now.getFullYear());
+          const hours = String(now.getHours()).padStart(2, "0");
+          const minutes = String(now.getMinutes()).padStart(2, "0");
+          const seconds = String(now.getSeconds()).padStart(2, "0");
+          const timeString = `${years}年${hours}:${minutes}:${seconds}`;
+          // 藥品名稱和時間組合
+          const record = `<li>🕒 ${timeString} - 已服用💊 ${medname}</li>`;
+          // 新增到 `#medician-list`
+          $("#medicine-list").append(record);
+          // 清空輸入框
+          $("#medicine-name").val(""); //每次輸入完都會變空
+        });
+      });
+    </script>
+  </body>
+</html>
