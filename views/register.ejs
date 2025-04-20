@@ -1,8 +1,92 @@
-<h1>會員註冊</h1>
-<form action="/register" method="POST">
-  <input type="text" name="username" placeholder="請輸入帳號" required /><br />
-  <input type="text" name="password" placeholder="請輸入密碼" required /><br />
-  <input type="text" name="nickname" placeholder="您的暱稱" required /><br />
-  <button type="submit">註冊</button>
-</form>
-<a href="/login">已有帳號?前往登入</a>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員註冊</title>
+  </head>
+  <style>
+    body {
+      font-family: "微軟正黑體", sans-serif;
+      background: linear-gradient(to bottom right, #fef6e4, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-box {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+
+    .form-box h1 {
+      text-align: center;
+      color: #e67e22;
+      margin-bottom: 25px;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+
+    .form-box button:hover {
+      background-color: #d35400;
+    }
+
+    .form-box a {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+  <body>
+    <div class="form-box">
+      <h1>會員註冊</h1>
+      <form action="/register" method="POST">
+        <input
+          type="text"
+          name="username"
+          placeholder="請輸入帳號"
+          required
+        /><br />
+        <input
+          type="text"
+          name="password"
+          placeholder="請輸入密碼"
+          required
+        /><br />
+        <input
+          type="text"
+          name="nickname"
+          placeholder="您的暱稱"
+          required
+        /><br />
+        <button type="submit">註冊</button>
+      </form>
+      <a href="/login">已有帳號?前往登入</a>
+    </div>
+  </body>
+</html>

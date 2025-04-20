@@ -28,8 +28,28 @@ app.set("views", path.join(__dirname, "views")); //ejs 檔案放在views資料�
 app.use(express.static(path.join(__dirname, "public"))); //設定 public資料夾為靜態資源區 裡面放的 CSS、圖片、JavaScript 都可以被瀏覽器直接載入
 
 app.get("/", (req, res) => {
-  res.render("index", { username: req.session.nickname || null }); //如果 req.session.nickname 有值就用 沒有就null
-}); //使用者打開 / 網址時會渲染index.ejs的畫面
+  //res.render("index", { username: req.session.nickname || null }); //如果 req.session.nickname 有值就用 沒有就null
+  const username = req.session.nickname || null;
+
+  if (!req.session.username) {
+    // 未登入傳空logs
+    return res.render("index", { username, logs: [] });
+  }
+
+  // 已登入從資料庫查詢
+  const sql =
+    "SELECT * FROM medicine_log WHERE username = ? ORDER BY created_at DESC";
+  db.query(sql, [req.session.username], (err, result) => {
+    if (err) {
+      console.error("查詢紀錄失敗：", err);
+      return res.render("index", { username, logs: [] }); // 錯誤也傳空
+    }
+
+    //  成功取得紀錄
+    res.render("index", { username, logs: result }); // ← logs 一定要傳！
+  });
+});
+
 //註冊頁面功能
 app.get("/register", (req, res) => {
   res.render("register");
@@ -87,7 +107,32 @@ app.post("/login", async (req, res) => {
     res.redirect("/");
   });
 });
+//做登出
+app.get("/logout", (req, res) => {
+  const nickname = req.session.nickname; //  登出前先存起來！
 
+  req.session.destroy(() => {
+    console.log(nickname + " 您已登出"); // 現在就不會錯了
+    res.redirect("/");
+  });
+});
+//做只要有登入才能使用
+app.post("/record", (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).send("請先登入再使用");
+  }
+  const { medicine_name } = req.body;
+  const username = req.session.username;
+  const sql =
+    "INSERT INTO medicine_log (username, medicine_name) VALUES (?, ?)";
+  db.query(sql, [username, medicine_name], (err, result) => {
+    if (err) {
+      console.error("新增紀錄失敗：", err);
+      return res.status(500).send("伺服器錯誤");
+    }
+    res.send("紀錄成功！");
+  });
+});
 //監聽3000
 app.listen(3000, () => {
   console.log("伺服器啟動：http://localhost:3000");

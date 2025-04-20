@@ -9,8 +9,39 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   </head>
   <style>
-    li {
-      list-style-type: none;
+    #medicine-list {
+      padding: 0;
+      margin-top: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #medicine-list li {
+      background-color: #f5f5f5;
+      border-left: 5px solid #4caf50;
+      margin-bottom: 10px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-family: "Microsoft JhengHei", sans-serif;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    #medicine-list li:hover {
+      transform: scale(1.02);
+      background-color: #e0ffe0;
+    }
+    .delete {
+      background-color: #f56161;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
   </style>
   <body>
@@ -28,7 +59,11 @@
             ><button class="btn btn-register">註冊會員</button></a
           >
           <% } else { %>
-          <span class="welcome-msg"><%= username %>，歡迎您！</span>
+          <span
+            class="welcome-msg"
+            style="font-size: 1.5rem; text-align: center; font-weight: bold"
+            ><%= username %>，歡迎您！</span
+          >
           <a href="/logout"><button class="btn btn-logout">登出</button></a>
           <% } %>
         </div>
@@ -44,82 +79,52 @@
         </div>
 
         <ul id="medicine-list">
-          <!-- 吃藥紀錄會顯示在這裡 -->
+          <% logs.forEach(log => { %>
+          <li>
+            🕒 <%= log.created_at.toLocaleString() %> - 已服用💊 <%=
+            log.medicine_name %>
+            <button class="delete">刪除</button>
+          </li>
+
+          <% }) %>
         </ul>
       </section>
     </main>
     <footer></footer>
     <script>
-      // document.addEventListener("DOMContentLoaded", function () {
-      //   const loginBtn = document.querySelector(".btn-login");
-      //   const mainSection = document.querySelector("main");
-      //   const greeting = document.getElementById("greeting");
-
-      //   loginBtn.onclick = function () {
-      //     if (loginBtn.textContent === "會員登入") {
-      //       let username = prompt("請輸入您的使用者名稱");
-      //       if (!username) {
-      //         alert("請輸入名稱!");
-      //         return;
-      //       } //有輸入名稱才會執行下面程式碼
-      //       localStorage.setItem("username", username.trim()); // 儲存使用者資料
-      //       greeting.textContent = `${username.trim()}，您好！這是您的用藥紀錄`;
-      //       mainSection.style.display = "block";
-      //       loginBtn.textContent = "會員登出";
-      //     } else {
-      //       localStorage.removeItem("username");
-      //       //mainSection.style.display = "none";
-      //       greeting.textContent = "您好，請先登入再使用";
-      //       loginBtn.textContent = "會員登入";
-      //     }
-      //   };
-      //   //確認登入狀態
-      //   const saveName = localStorage.getItem("username");
-      //   console.log(saveName);
-      //   if (saveName) {
-      //     greeting.textContent = `${saveName}，您好！這是您的用藥紀錄`;
-      //     mainSection.style.display = "block";
-      //     loginBtn.textContent = "會員登出";
-      //   }
-      //時間
+      // 時間顯示
       function time() {
         const nowTime = new Date();
-        //console.log(nowTime);
         const years = String(nowTime.getFullYear());
-        const hours = String(nowTime.getHours()).padStart(2, "0"); //確保是二位數 如果沒有 前面補0
+        const hours = String(nowTime.getHours()).padStart(2, "0");
         const minutes = String(nowTime.getMinutes()).padStart(2, "0");
         const seconds = String(nowTime.getSeconds()).padStart(2, "0");
         const timeString = `${years}年${hours}:${minutes}:${seconds}`;
-        clock.textContent = timeString;
+        document.getElementById("clock").textContent = timeString;
       }
       setInterval(time, 1000);
-      // time();
 
-      //紀錄
+      // 吃藥紀錄按鈕
       $(document).ready(function () {
         $("#record-btn").on("click", function () {
-          const medname = $("#medicine-name").val().trim(); //取得輸入框的值
-          console.log(medname);
+          const medname = $("#medicine-name").val().trim();
           if (medname === "") {
             alert("請輸入藥品名稱!");
             return;
           }
-          //取得現在時間
-          const now = new Date();
 
-          const years = String(now.getFullYear());
-          const hours = String(now.getHours()).padStart(2, "0");
-          const minutes = String(now.getMinutes()).padStart(2, "0");
-          const seconds = String(now.getSeconds()).padStart(2, "0");
-          const timeString = `${years}年${hours}:${minutes}:${seconds}`;
-          // 藥品名稱和時間組合
-          const record = `<li>🕒 ${timeString} - 已服用💊 ${medname}</li>`;
-          // 新增到 `#medician-list`
-          $("#medicine-list").append(record);
-          // 清空輸入框
-          $("#medicine-name").val(""); //每次輸入完都會變空
+          // 傳送 POST 請求給後端
+          $.post("/record", { medicine_name: medname }, function (res) {
+            alert(res); // 成功訊息
+            location.reload(); // 重新載入畫面 → 從後端撈最新紀錄
+          }).fail(function (xhr) {
+            alert("❌ " + xhr.responseText);
+          });
+
+          $("#medicine-name").val(""); // 清空輸入框
         });
       });
+      //刪除按鈕
     </script>
   </body>
 </html>
