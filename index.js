@@ -1,6 +1,37 @@
 const express = require("express"); //引入 express 模組
 const app = express();
 const session = require("express-session");
+
+//新聞fun
+let cachedNews = []; // 新聞更新進來後就存進來
+let lastFetched = 0; // 上次更新時間
+
+async function fetchNews() {
+  const API_KEY = "dac6cad16ef672e6bcee37ce7276c4b9"; //等我部屬再放到env
+  const newsUrl = `https://gnews.io/api/v4/top-headlines?country=tw&lang=zh&category=health&max=3&apikey=${API_KEY}`;
+  //抓取台灣繁體中文類別為健康的前三筆最新新聞
+  try {
+    const response = await fetch(newsUrl); //發送 HTTP 請求
+    const data = await response.json(); //整個 JSON 資料
+    const fixedImage = "/img/news.jpg";
+    cachedNews = (data.articles || []).slice(0, 3).map((article) => ({
+      //articles有值就用 最多取前三比
+      ...article, //articles裡面有很多article陣列資料
+      image: fixedImage, //因為我只要蓋掉圖片保留其他內容 就展開複製就好
+    }));
+    lastFetched = Date.now(); //紀錄這次新聞更新的時間
+    console.log("已更新健康新聞快取");
+  } catch (err) {
+    console.error(" 抓取新聞失敗", err);
+  }
+}
+
+// 啟動時立即抓一次新聞
+fetchNews();
+
+// 每 1 小時自動抓一次
+setInterval(fetchNews, 60 * 60 * 1000);
+
 app.use(
   session({
     secret: "your-secret-key", // 秘鑰
@@ -27,26 +58,125 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views")); //ejs 檔案放在views資料夾裡__dirname 代表目前這支程式所在的資料夾
 app.use(express.static(path.join(__dirname, "public"))); //設定 public資料夾為靜態資源區 裡面放的 CSS、圖片、JavaScript 都可以被瀏覽器直接載入
 
-app.get("/", (req, res) => {
-  //res.render("index", { username: req.session.nickname || null }); //如果 req.session.nickname 有值就用 沒有就null
+app.get("/", async (req, res) => {
   const username = req.session.nickname || null;
+  //健康小知識
+  const tips = [
+    { zh: "多喝水有助新陳代謝", en: "Drinking more water helps metabolism" },
+    {
+      zh: "每天走路 30 分鐘有益心血管健康",
+      en: "Walking 30 minutes a day benefits heart health",
+    },
+    {
+      zh: "深綠色蔬菜富含鐵與葉酸",
+      en: "Dark green vegetables are rich in iron and folate",
+    },
+    {
+      zh: "睡眠不足會影響免疫系統",
+      en: "Lack of sleep weakens the immune system",
+    },
+    {
+      zh: "飲食應均衡攝取蛋白質、纖維與好油脂",
+      en: "Eat a balanced diet with protein, fiber, and healthy fats",
+    },
+    {
+      zh: "每天曬太陽 10 分鐘有助維生素 D 合成",
+      en: "10 minutes of sunlight daily boosts vitamin D synthesis",
+    },
+    {
+      zh: "控制糖分攝取可降低糖尿病風險",
+      en: "Reducing sugar intake lowers diabetes risk",
+    },
+    {
+      zh: "常吃加工食品會增加心臟病風險",
+      en: "Processed foods increase the risk of heart disease",
+    },
+    {
+      zh: "每週至少運動 3 次可改善情緒與睡眠",
+      en: "Exercising 3 times a week improves mood and sleep",
+    },
+    {
+      zh: "抽菸會傷害肺部與血管",
+      en: "Smoking damages lungs and blood vessels",
+    },
+    {
+      zh: "笑能釋放壓力與增強免疫力",
+      en: "Laughter reduces stress and boosts immunity",
+    },
+    {
+      zh: "良好坐姿能避免腰酸背痛",
+      en: "Good posture prevents back and neck pain",
+    },
+    { zh: "飯後散步有助消化", en: "Walking after meals aids digestion" },
+    {
+      zh: "規律作息對身心健康至關重要",
+      en: "A regular routine is vital for mental and physical health",
+    },
+    {
+      zh: "避免長時間滑手機，保護眼睛與頸椎",
+      en: "Limit screen time to protect eyes and neck",
+    },
+  ];
+  //空氣品質api
+  const API_KEY = "07c57ad3-a5c6-43f0-8bec-c35c82369d7d";
+  let aqiData = {};
+  try {
+    const apiUrl = `https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=${API_KEY}&limit=1000&sort=ImportDate desc&format=JSON`;
+    const response = await fetch(apiUrl);
+    const json = await response.json();
+    const records = json.records;
 
+    const countyAQI = {};
+    records.forEach((item) => {
+      const county = item.county;
+      const aqi = parseInt(item.aqi);
+      if (!isNaN(aqi)) {
+        if (!countyAQI[county]) countyAQI[county] = [];
+        countyAQI[county].push(aqi);
+      }
+    });
+    for (const county in countyAQI) {
+      const list = countyAQI[county];
+      const avg = Math.round(list.reduce((a, b) => a + b, 0) / list.length);
+      aqiData[county] = avg;
+    }
+  } catch (err) {
+    console.error("AQI 抓取失敗：", err);
+    aqiData = {};
+  }
+  //如果未登入
   if (!req.session.username) {
-    // 未登入傳空logs
-    return res.render("index", { username, logs: [] });
+    return res.render("index", {
+      username,
+      logs: [],
+      news: cachedNews,
+      tips,
+      aqiData,
+    });
   }
 
-  // 已登入從資料庫查詢
   const sql =
     "SELECT * FROM medicine_log WHERE username = ? ORDER BY created_at DESC";
   db.query(sql, [req.session.username], (err, result) => {
     if (err) {
       console.error("查詢紀錄失敗：", err);
-      return res.render("index", { username, logs: [] }); // 錯誤也傳空
+      return res.render("index", {
+        username,
+        logs: [],
+        news: cachedNews,
+        tips,
+        aqiData,
+      });
     }
 
-    //  成功取得紀錄
-    res.render("index", { username, logs: result }); // ← logs 一定要傳！
+    // 成功：有帳號紀錄新聞
+    res.render("index", {
+      username,
+      logs: result,
+      news: cachedNews,
+      tips,
+      aqiData,
+    });
   });
 });
 
@@ -112,7 +242,7 @@ app.get("/logout", (req, res) => {
   const nickname = req.session.nickname; //  登出前先存起來！
 
   req.session.destroy(() => {
-    console.log(nickname + " 您已登出"); // 現在就不會錯了
+    console.log(nickname + " 您已登出");
     res.redirect("/");
   });
 });
@@ -136,4 +266,52 @@ app.post("/record", (req, res) => {
 //監聽3000
 app.listen(3000, () => {
   console.log("伺服器啟動：http://localhost:3000");
+});
+
+//吃藥分頁
+app.get("/medicinerecord", (req, res) => {
+  if (!req.session.nickname) {
+    return res.redirect("/login");
+  }
+
+  const sql =
+    "SELECT * FROM medicine_log WHERE username = ? ORDER BY created_at DESC";
+  db.query(sql, [req.session.username], (err, result) => {
+    if (err) {
+      console.error("查詢紀錄失敗：", err);
+      return res.render("medicinerecord", {
+        nickname: req.session.nickname,
+        logs: [], // 回傳空陣列避免爆破
+      });
+    }
+
+    res.render("medicinerecord", {
+      nickname: req.session.nickname,
+      logs: result, //把查出來的資料叫做 logs 丟進 EJS
+    });
+  });
+});
+
+// 刪除指定紀錄（只允許刪自己的）
+app.delete("/record/:id", (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).send("請先登入");
+  }
+
+  const id = req.params.id;
+  const username = req.session.username;
+
+  const sql = "DELETE FROM medicine_log WHERE id = ? AND username = ?";
+  db.query(sql, [id, username], (err, result) => {
+    if (err) {
+      console.error("刪除紀錄失敗：", err);
+      return res.status(500).send("伺服器錯誤");
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send("紀錄不存在或無權限刪除");
+    }
+
+    res.send("刪除成功！");
+  });
 });

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用藥紀錄</title>
+    <link rel="stylesheet" href="/css/medicinerecord.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">Personal Health</div>
+      <ul class="navbar-links">
+        <li><a href="/">首頁</a></li>
+        <li><a href="/medicinerecord">用藥紀錄</a></li>
+        <li><a href="#">養生專欄</a></li>
+        <li><a href="#">聯絡我們</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section class="banner">
+        <!-- <img src="https://i.imgur.com/gOoeiAc.jpg" alt="健康水果盤" /> -->
+        <div class="banner-text">
+          <h1>健康生活，簡單開始</h1>
+          <p>Healthy living, made simple</p>
+          <% if (nickname) { %>
+          <div class="user-info">
+            <p class="user"><%= nickname %> 歡迎紀錄您的用藥！</p>
+            <a href="/logout" class="logout-button">登出</a>
+          </div>
+          <% }%>
+        </div>
+      </section>
+      <div class="button-group">
+        <button class="fancy-button" onclick="showRecord()">用藥紀錄</button>
+        <button class="fancy-button" onclick="showHistory()">歷史紀錄</button>
+      </div>
+      <div class="slider-container">
+        <!-- 左邊 -->
+        <div id="recordPanel" class="panel record-panel">
+          <h2>用藥紀錄</h2>
+          <div class="medicine-form">
+            <!-- 藥品名稱 -->
+            <label for="medicineName">藥品名稱：</label>
+            <input type="text" id="medicineName" placeholder="請輸入藥品名稱" />
+
+            <!-- 時段選擇 -->
+            <label>服藥時間：</label>
+            <div class="time-options">
+              <label
+                ><input type="radio" name="time" value="morning" /> 早上</label
+              >
+              <label
+                ><input type="radio" name="time" value="noon" /> 中午</label
+              >
+              <label
+                ><input type="radio" name="time" value="evening" /> 晚上</label
+              >
+            </div>
+
+            <!-- 日期選擇 -->
+            <label for="medDate">服藥日期：</label>
+            <input type="date" id="medDate" />
+
+            <!-- 新增紀錄按鈕 -->
+            <button class="submit-btn">新增紀錄</button>
+          </div>
+        </div>
+        <!-- 白色歷史紀錄區塊 -->
+        <div id="historyStaticPanel" class="panel history-static-panel">
+          <h2><%= nickname %>，這是您的歷史用藥紀錄</h2>
+          <div id="historyList" class="history-list">
+            <% logs.forEach((log) => { %>
+            <div class="history-item" data-id="<%= log.id %>">
+              💊 <%= log.medicine_name %>（記錄時間：<%=
+              log.created_at.toLocaleString() %>）
+              <button class="delete-btn" onclick="deleteLog(<%= log.id %>)">
+                🗑 刪除
+              </button>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+        <!-- 右邊 -->
+        <div id="historyPanel" class="panel history-panel">
+          <h2>歷史紀錄</h2>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+  <script>
+              function showHistory() {
+                const historyPanel = document.getElementById("historyPanel");
+                historyPanel.classList.add("slide-in");
+              }
+
+              function showRecord() {
+                const historyPanel = document.getElementById("historyPanel");
+                historyPanel.classList.remove("slide-in");
+              }
+              //新增紀錄
+
+
+            const historyData = <%- JSON.stringify(logs) %>;
+          document.querySelector(".submit-btn").addEventListener("click", () => {
+            const name = document.getElementById("medicineName").value.trim();
+            const date = document.getElementById("medDate").value;
+            const times = Array.from(
+              document.querySelectorAll('input[name="time"]:checked')
+            ).map((t) => t.value);
+
+            if (!name || !date || times.length === 0) {
+              alert("請填寫所有欄位");
+              return;
+            }
+
+            // 多時段紀錄 → 一筆一筆送進資料庫
+            Promise.all(
+              times.map((time) =>
+                fetch("/record", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    medicine_name: `${name}（${translateTime(time)} - ${date}）`,
+                  }),
+                })
+              )
+            )
+              .then(() => {
+                alert("紀錄成功！");
+                location.reload(); // ✅ 重新抓資料，畫面與資料庫同步
+              })
+              .catch((err) => {
+                console.error("新增失敗", err);
+                alert("新增失敗，請稍後再試");
+              });
+          });function translateTime(time) {
+        switch (time) {
+          case "morning":
+            return "早上";
+          case "noon":
+            return "中午";
+          case "evening":
+            return "晚上";
+          default:
+            return time;
+        }
+      }
+      //刪除
+      function deleteLog(id) {
+      if (!confirm("確定要刪除這筆紀錄嗎？")) return;
+
+      fetch(`/record/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("刪除失敗");
+          return res.text();
+        })
+        .then((msg) => {
+          alert(msg);
+          // 從畫面移除該項目
+          const item = document.querySelector(`.history-item[data-id='${id}']`);
+          if (item) item.remove();
+        })
+        .catch((err) => {
+          console.error("錯誤", err);
+          alert("刪除失敗，請稍後再試");
+        });
+    }
+  </script>
+</html>
