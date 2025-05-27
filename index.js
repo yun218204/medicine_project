@@ -1,13 +1,13 @@
 const express = require("express"); //引入 express 模組
 const app = express();
 const session = require("express-session");
-
+require("dotenv").config();
 //新聞fun
 let cachedNews = []; // 新聞更新進來後就存進來
 let lastFetched = 0; // 上次更新時間
 
 async function fetchNews() {
-  const API_KEY = "dac6cad16ef672e6bcee37ce7276c4b9"; //等我部屬再放到env
+  const API_KEY = process.env.GNEWS_API_KEY; //等我部屬再放到env
   const newsUrl = `https://gnews.io/api/v4/top-headlines?country=tw&lang=zh&category=health&max=3&apikey=${API_KEY}`;
   //抓取台灣繁體中文類別為健康的前三筆最新新聞
   try {
@@ -45,7 +45,7 @@ const bcrypt = require("bcrypt"); //用來加密密碼
 
 app.use(express.urlencoded({ extended: true })); //解析表單送來的資料
 app.use(express.json()); //解析json (fetch或axios)
-
+app.use(express.static("public"));
 db.query("SELECT * FROM users", (err, rows) => {
   if (err) {
     console.error("查詢失敗：", err);
@@ -263,10 +263,6 @@ app.post("/record", (req, res) => {
     res.send("紀錄成功！");
   });
 });
-//監聽3000
-app.listen(3000, () => {
-  console.log("伺服器啟動：http://localhost:3000");
-});
 
 //吃藥分頁
 app.get("/medicinerecord", (req, res) => {
@@ -314,4 +310,12 @@ app.delete("/record/:id", (req, res) => {
 
     res.send("刪除成功！");
   });
+});
+//養生專欄
+app.get("/healthy", (req, res) => {
+  res.render("healthy");
+});
+//監聽3000
+app.listen(3000, () => {
+  console.log("伺服器啟動：http://localhost:3000");
 });

@@ -1,0 +1,49 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body .navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+body .navbar .navbar-links {
+  display: flex;
+  list-style-type: none;
+  gap: 20px;
+}
+body .navbar .navbar-links li a {
+  text-decoration: none;
+  color: black;
+}
+body main .banner {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+body main .banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  height: 70vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+  filter: brightness(80%);
+}
+body main .banner h2 {
+  position: absolute;
+  color: rgba(240, 248, 255, 0.667);
+  top: 40%;
+  right: 80%;
+  font-size: 3rem;
+  letter-spacing: 10px;
+}/*# sourceMappingURL=healthy.css.map */

@@ -12,7 +12,7 @@
       <ul class="navbar-links">
         <li><a href="/">首頁</a></li>
         <li><a href="/medicinerecord">用藥紀錄</a></li>
-        <li><a href="#">養生專欄</a></li>
+        <li><a href="/healthy">養生專欄</a></li>
         <li><a href="#">聯絡我們</a></li>
       </ul>
     </nav>
@@ -91,86 +91,87 @@
     <footer></footer>
   </body>
   <script>
-              function showHistory() {
-                const historyPanel = document.getElementById("historyPanel");
-                historyPanel.classList.add("slide-in");
-              }
+                  function showHistory() {
+                    const historyPanel = document.getElementById("historyPanel");
+                    historyPanel.classList.add("slide-in");
+                  }
 
-              function showRecord() {
-                const historyPanel = document.getElementById("historyPanel");
-                historyPanel.classList.remove("slide-in");
-              }
-              //新增紀錄
+                  function showRecord() {
+                    const historyPanel = document.getElementById("historyPanel");
+                    historyPanel.classList.remove("slide-in");
+                  }
+                  //新增紀錄
 
 
-            const historyData = <%- JSON.stringify(logs) %>;
-          document.querySelector(".submit-btn").addEventListener("click", () => {
-            const name = document.getElementById("medicineName").value.trim();
-            const date = document.getElementById("medDate").value;
-            const times = Array.from(
-              document.querySelectorAll('input[name="time"]:checked')
-            ).map((t) => t.value);
+                const historyData = <%- JSON.stringify(logs) %>;
+              document.querySelector(".submit-btn").addEventListener("click", () => {
+                const name = document.getElementById("medicineName").value.trim();
+                const date = document.getElementById("medDate").value;
+                const times = Array.from(
+                  document.querySelectorAll('input[name="time"]:checked')
+                ).map((t) => t.value);
+    //每個被選到的時間
+                if (!name || !date || times.length === 0) {
+                  alert("請填寫所有欄位");
+                  return;
+                }
 
-            if (!name || !date || times.length === 0) {
-              alert("請填寫所有欄位");
-              return;
-            }
-
-            // 多時段紀錄 → 一筆一筆送進資料庫
-            Promise.all(
-              times.map((time) =>
-                fetch("/record", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    medicine_name: `${name}（${translateTime(time)} - ${date}）`,
-                  }),
-                })
-              )
-            )
-              .then(() => {
-                alert("紀錄成功！");
-                location.reload(); // ✅ 重新抓資料，畫面與資料庫同步
-              })
-              .catch((err) => {
-                console.error("新增失敗", err);
-                alert("新增失敗，請稍後再試");
+                // 多時段紀錄 一筆一筆送進資料庫
+                Promise.all(
+                  times.map((time) =>
+                    fetch("/record", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        medicine_name: `${name}（${translateTime(time)} - ${date}）`,
+                      }),
+                    })
+                  )
+                )
+                  .then(() => {
+                    alert("紀錄成功！");
+                    location.reload(); // 重新抓資料讓畫面與資料庫同步
+                  })
+                  .catch((err) => {
+                    console.error("新增失敗", err);
+                    alert("新增失敗，請稍後再試");
+                  });
               });
-          });function translateTime(time) {
-        switch (time) {
-          case "morning":
-            return "早上";
-          case "noon":
-            return "中午";
-          case "evening":
-            return "晚上";
-          default:
-            return time;
-        }
-      }
-      //刪除
-      function deleteLog(id) {
-      if (!confirm("確定要刪除這筆紀錄嗎？")) return;
+              function translateTime(time) {
+            switch (time) {
+              case "morning":
+                return "早上";
+              case "noon":
+                return "中午";
+              case "evening":
+                return "晚上";
+              default:
+                return time;
+            }
+          }
+          //刪除
+          function deleteLog(id) { //id在html裡面有
+          if (!confirm("確定要刪除這筆紀錄嗎？")) return;
 
-      fetch(`/record/${id}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("刪除失敗");
-          return res.text();
-        })
-        .then((msg) => {
-          alert(msg);
-          // 從畫面移除該項目
-          const item = document.querySelector(`.history-item[data-id='${id}']`);
-          if (item) item.remove();
-        })
-        .catch((err) => {
-          console.error("錯誤", err);
-          alert("刪除失敗，請稍後再試");
-        });
-    }
+          fetch(`/record/${id}`, {
+            method: "DELETE",
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error("刪除失敗");
+              return res.text();
+            })
+            .then((msg) => {
+              alert(msg);
+              // 從畫面移除該項目
+              const item = document.querySelector(`.history-item[data-id='${id}']`);
+              if (item) item.remove();
+            })
+            .catch((err) => {
+              console.error("錯誤", err);
+              alert("刪除失敗，請稍後再試");
+            });
+        }
   </script>
 </html>
