@@ -18,29 +18,28 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px); // 玻璃效果
     width: 100%;
     background-color: rgba(255, 255, 255, 0.5);
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
     .navbar-links {
       display: flex;
       list-style-type: none;
       gap: 20px;
-
       li {
         a {
           text-decoration: none;
           color: black;
+          padding: 8px 12px;
+          border-radius: 8px;
+          transition: background-color 0.3s ease;
+          &:hover {
+            background-color: #eee;
+          }
         }
       }
     }

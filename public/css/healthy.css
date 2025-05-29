@@ -8,10 +8,13 @@ body .navbar {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
   width: 100%;
   background-color: rgba(255, 255, 255, 0.5);
 }
@@ -23,6 +26,12 @@ body .navbar .navbar-links {
 body .navbar .navbar-links li a {
   text-decoration: none;
   color: black;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+body .navbar .navbar-links li a:hover {
+  background-color: #eee;
 }
 body main .banner {
   width: 100%;
@@ -86,7 +95,7 @@ body main .section .article {
   justify-content: center;
   padding-top: 1rem;
 }
-body main .section .article img {
+body main .section .article .article-img {
   width: 300px;
   height: auto;
   display: block;

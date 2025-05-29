@@ -315,6 +315,10 @@ app.delete("/record/:id", (req, res) => {
 app.get("/healthy", (req, res) => {
   res.render("healthy");
 });
+//聯絡
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
 //監聽3000
 app.listen(3000, () => {
   console.log("伺服器啟動：http://localhost:3000");

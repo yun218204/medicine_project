@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>聯絡我們</title>
+    <link rel="stylesheet" href="/css/contact.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">Personal Health</div>
+      <ul class="navbar-links">
+        <li><a href="/">首頁</a></li>
+        <li><a href="/medicinerecord">用藥紀錄</a></li>
+        <li><a href="/healthy">養生專欄</a></li>
+        <li><a href="/contact">聯絡我們</a></li>
+      </ul>
+    </nav>
+    <main>
+      <section class="banner">
+        <img src="https://i.meee.com.tw/vKT3JQY.jpg" alt="banner" />
+        <h2>若有疑問歡迎聯絡</h2>
+      </section>
+      <section class="fullscreen-contact">
+        <div class="contact-container">
+          <h2>聯絡我們</h2>
+          <form action="/contact" method="POST">
+            <div class="form-group">
+              <label for="name">姓名</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">電子信箱</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">聯絡電話</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+
+            <div class="form-group">
+              <label>偏好聯絡方式</label>
+              <div class="radio-group">
+                <label
+                  ><input
+                    type="radio"
+                    name="contactMethod"
+                    value="email"
+                    checked
+                  />
+                  Email</label
+                >
+                <label
+                  ><input type="radio" name="contactMethod" value="phone" />
+                  電話</label
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="topic">問題類型</label>
+              <select id="topic" name="topic" required>
+                <option value="">-- 請選擇 --</option>
+                <option value="general">一般問題</option>
+                <option value="feedback">意見回饋</option>
+                <option value="technical">技術支援</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">留言內容</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit">送出表單</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer
+      style="
+        background-color: #f8f8f8;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        padding-top: 40px;
+      "
+    >
+      <div>
+        <p>&copy; 2025 Personal Health. All rights reserved.</p>
+        <p>
+          聯絡我們：<a href="mailto:contact@health.com" style="color: #4b82f1"
+            >chen02964129@gmail.com</a
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

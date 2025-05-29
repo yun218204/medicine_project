@@ -9,10 +9,12 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px); // 玻璃效果
     width: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     .navbar-links {
@@ -23,6 +25,12 @@ body {
         a {
           text-decoration: none;
           color: black;
+          padding: 8px 12px;
+          border-radius: 8px;
+          transition: background-color 0.3s ease;
+          &:hover {
+            background-color: #eee;
+          }
         }
       }
     }
@@ -92,7 +100,7 @@ body {
         justify-content: center;
         padding-top: 1rem;
 
-        img {
+        .article-img {
           width: 300px;
           height: auto;
           display: block;
