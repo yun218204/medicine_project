@@ -46,4 +46,55 @@ body main .banner h2 {
   right: 80%;
   font-size: 3rem;
   letter-spacing: 10px;
+}
+body main .healthy-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  position: absolute;
+  bottom: 35%;
+  left: 25%;
+}
+body main .healthy-button-group button {
+  padding: 8px 20px;
+  font-size: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+body main .healthy-button-group button:hover {
+  background-color: #878790;
+}
+body main .healthy-button-group button.active {
+  background-color: #d1e7dd;
+  color: #1b4332;
+  border-color: #a3cfbb;
+}
+body main .section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+body main .section .article {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+}
+body main .section .article img {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin-right: 1rem;
+  border-radius: 30px;
+}
+body main .section .article .article-text {
+  width: 50%;
+  line-height: 1.4;
+  color: #333;
 }/*# sourceMappingURL=healthy.css.map */

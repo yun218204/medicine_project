@@ -6,6 +6,7 @@
     <title>養生專欄</title>
     <link rel="stylesheet" href="/css/healthy.css" />
   </head>
+
   <body>
     <nav class="navbar">
       <div class="logo">Personal Health</div>
@@ -21,7 +22,317 @@
         <img src="https://i.meee.com.tw/1pPs8Ip.jpg" alt="banner" />
         <h2>養生專欄</h2>
       </section>
+      <div class="healthy-button-group">
+        <button onclick="showSection('food')">飲食與食補</button>
+        <button onclick="showSection('exercise')">運動與保健</button>
+        <button onclick="showSection('sleep')">睡眠與心理</button>
+        <button onclick="showSection('immunit')">免疫力提升</button>
+        <button onclick="showSection('life')">生活與習慣</button>
+      </div>
+      <div id="food" class="section">
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/pzhVch6.jpg"
+            alt="春季飲食"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>春季養肝</h2>
+            <p>
+              春季是肝臟運作最旺盛的時節，中醫認為「春主肝」，此時飲食應以養肝護肝為主。可多攝取綠色蔬菜如菠菜、芹菜、韭菜等，幫助肝氣疏通；避免過度食用油炸、辛辣食物，以免造成肝火過旺。早睡早起、情緒穩定也對肝臟健康有加分作用喔！
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>夏天消暑</h2>
+            <p>
+              炎熱夏季，許多人習慣喝冰飲解暑，但其實冰冷食物容易損傷脾胃陽氣，導致消化不良或水腫。建議改喝溫和的薏仁水、冬瓜茶或綠豆湯，不但有助消暑，還能幫助身體排濕去熱。日常飲食可搭配苦瓜、絲瓜等清涼蔬菜，舒緩體內燥熱。
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/s1YoPr5.jpg"
+            alt="夏天消暑"
+            class="article-img"
+          />
+        </div>
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/KYLYUR9.jpg"
+            alt="秋天潤肺"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>秋天潤肺</h2>
+            <p>
+              秋天乾燥，常見喉嚨癢、乾咳等症狀，這時可食用具有潤肺作用的食材，如白木耳、百合、梨子等。推薦一道簡單的「百合雪梨湯」：將雪梨切塊與百合、冰糖一同燉煮，溫潤滋養，非常適合秋季飲用。搭配多喝水與適當運動，調理秋燥效果更佳。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>冬令進補</h2>
+            <p>
+              冬季為進補的好時機，但補不當反而容易上火。體質偏虛寒者可選用羊肉爐、十全大補湯等溫補藥膳，促進血液循環與抗寒力；若體質偏燥熱，則應避免濫補，改以四神湯、山藥雞湯等平補湯品為佳。補身之前建議先了解自己體質，再選擇適合的食補方式更安心！
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/SvmkdPC.jpg"
+            alt="冬令進補"
+            class="article-img"
+          />
+        </div>
+      </div>
+      <div id="exercise" class="section">
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/pzhVch6.jpg"
+            alt="春季飲食"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>早晨運動：喚醒身體的最佳方式</h2>
+            <p>
+              早晨進行簡單的運動如快走、伸展操，不僅能喚醒沉睡的身體，還能促進血液循環、提升代謝率。建議在晨光中進行
+              20～30分鐘的輕度運動，有助提神醒腦，讓一整天更有精神。不過記得運動前先補充少量水分，避免空腹運動過久。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>肌力訓練：不是健美才需要</h2>
+            <p>
+              很多人誤以為肌力訓練是健身達人才需要的，其實任何年齡層都需要適度的肌力鍛鍊。透過伏地挺身、深蹲、彈力帶訓練等方式，可以強化核心與四肢肌群，預防跌倒、關節退化。每週至少2
+              次肌力訓練，是長期健康的關鍵。
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/s1YoPr5.jpg"
+            alt="夏天消暑"
+            class="article-img"
+          />
+        </div>
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/KYLYUR9.jpg"
+            alt="秋天潤肺"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>運動後的黃金 30 分鐘</h2>
+            <p>
+              運動後的 30
+              分鐘是身體恢復的黃金時間，適當補充蛋白質與水分，可幫助肌肉修復與能量補充。建議攝取如豆漿、優格、水煮蛋等輕食，避免高油高糖食物。此時也適合做簡單伸展，有助緩解乳酸堆積，減少隔天痠痛。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>不運動，也可以「動起來」</h2>
+            <p>
+              現代人工作久坐，長期缺乏運動易導致腰痠背痛與代謝變慢。若難以安排正式運動時間，不妨每天安排「生活活動」：走樓梯代替電梯、站立工作、飯後散步
+              10 分鐘等，累積活動量同樣有益健康。記得：累積活動也算運動！
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/SvmkdPC.jpg"
+            alt="冬令進補"
+            class="article-img"
+          />
+        </div>
+      </div>
+      <div id="sleep" class="section">
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/pzhVch6.jpg"
+            alt="春季飲食"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>睡前儀式，幫助入眠</h2>
+            <p>
+              睡前進行固定的放鬆儀式，有助於告訴大腦「該休息了」。像是泡溫水澡、閱讀紙本書、聽輕音樂或做深呼吸，都是有效的助眠方式。避免滑手機、喝咖啡或進行劇烈運動，才能讓身體更快進入睡眠模式，提升睡眠品質。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>午後焦慮？試試呼吸法</h2>
+            <p>
+              工作壓力大、心情煩躁時，不妨靜下來進行簡單的「4-7-8 呼吸法」：吸氣
+              4 秒、閉氣 7 秒、吐氣 8 秒，重複
+              3～4次，有助於穩定自律神經、減輕焦慮。每天練習幾分鐘，就能逐漸改善情緒波動與睡眠狀況。
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/s1YoPr5.jpg"
+            alt="夏天消暑"
+            class="article-img"
+          />
+        </div>
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/KYLYUR9.jpg"
+            alt="秋天潤肺"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>睡不好，也要起得早？</h2>
+            <p>
+              許多人睡不好後會想「補眠」，其實反而會讓生理時鐘更加混亂。即使前一晚睡眠不足，也建議隔天依照原訂時間起床，並在白天避免午睡過久，晚上再自然早點入睡。建立穩定作息，是改善睡眠的關鍵之一。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>心理健康，也需要「動一動」</h2>
+            <p>
+              情緒壓力大時，除了找人傾訴，也可以透過運動來釋放壓力。研究顯示，規律運動能刺激腦內啡分泌，有助於提升心情、減緩焦慮與抑鬱症狀。即使只是快走
+              15 分鐘，也能讓心理狀態更穩定、更正向。
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/SvmkdPC.jpg"
+            alt="冬令進補"
+            class="article-img"
+          />
+        </div>
+      </div>
+      <div id="immunit" class="section">
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/pzhVch6.jpg"
+            alt="春季飲食"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>每天喝水，啟動身體防禦力</h2>
+            <p>
+              水是最天然的免疫力啟動劑。適量喝水能促進體內代謝、幫助排毒，維持細胞正常運作與血液循環。建議成人每日攝取約
+              2000
+              毫升的水，尤其在換季或氣候變化時，更要確保身體有足夠的水分，為免疫系統提供穩定支持。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>睡飽一點，免疫細胞更有力</h2>
+            <p>
+              充足睡眠是身體修復與免疫細胞再生的關鍵時段。成年人每天應有 7～9
+              小時的優質睡眠，睡眠不足會降低免疫細胞活性，讓身體更容易被病毒入侵。規律作息、避免熬夜、睡前遠離3C，是強化免疫系統的第一步。
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/s1YoPr5.jpg"
+            alt="夏天消暑"
+            class="article-img"
+          />
+        </div>
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/KYLYUR9.jpg"
+            alt="秋天潤肺"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>多攝取天然抗氧化食物</h2>
+            <p>
+              富含維生素 C、E
+              與植化素的蔬果有助對抗自由基，增強身體防護力。常見食材如奇異果、紅椒、番茄、藍莓、綠茶等，都是天然的抗氧化小尖兵。每天至少五蔬果，色彩越繽紛，免疫越穩健！
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>運動＝增強免疫的自然疫苗</h2>
+            <p>
+              規律運動能活化淋巴循環與免疫細胞活性，是天然提升免疫力的方式。建議每週進行
+              150
+              分鐘的中度運動，如快走、騎車、瑜伽等。不需過度激烈，持之以恆才是關鍵。動起來，就是讓身體更會保護自己！
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/SvmkdPC.jpg"
+            alt="冬令進補"
+            class="article-img"
+          />
+        </div>
+      </div>
+      <div id="life" class="section">
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/pzhVch6.jpg"
+            alt="春季飲食"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>規律作息，讓生活更有節奏</h2>
+            <p>
+              每天固定時間起床與入睡，不僅有助睡眠品質，也能穩定身心狀態。生理時鐘一旦穩定，體內代謝、免疫系統與情緒管理也會更加有序。即使是假日，也建議作息不要落差太大，養成規律生活，健康自然跟著來。
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>善用早晨黃金一小時</h2>
+            <p>
+              起床後的第一小時是啟動大腦與身體的關鍵時段。建議做些輕運動、喝杯溫開水、曬個太陽，並吃一份營養早餐，能提升整日的專注力與情緒穩定。避免賴床滑手機，改用有意識的儀式感開啟新的一天吧！
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/s1YoPr5.jpg"
+            alt="夏天消暑"
+            class="article-img"
+          />
+        </div>
+        <div class="article">
+          <img
+            src="https://i.meee.com.tw/KYLYUR9.jpg"
+            alt="秋天潤肺"
+            class="article-img"
+          />
+          <div class="article-text">
+            <h2>遠離久坐，養成活動習慣</h2>
+            <p>
+              久坐已被視為「新型態慢性病危機」，不論是否運動習慣良好，只要久坐時間過長，都會增加代謝與心血管疾病風險。建議每坐一小時就起身走動
+              3～5 分鐘，累積小動作，也能為健康加分！
+            </p>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-text">
+            <h2>每天留點時間給自己</h2>
+            <p>
+              在忙碌生活中，每天留 15～30
+              分鐘給自己靜心、放空、閱讀或做喜歡的事，是維持心理健康的重要習慣。這段「獨處時間」能幫助你釐清情緒、減少壓力，讓生活不只是運作，更是充滿意識的選擇。
+            </p>
+          </div>
+          <img
+            src="https://i.meee.com.tw/SvmkdPC.jpg"
+            alt="冬令進補"
+            class="article-img"
+          />
+        </div>
+      </div>
     </main>
     <footer></footer>
   </body>
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll(".section");
+
+      sections.forEach((section) => {
+        if (section.id === sectionId) {
+          section.style.display = "block";
+        } else {
+          section.style.display = "none";
+        }
+      });
+    }
+
+    // 預設只顯示第一個區塊
+    window.addEventListener("DOMContentLoaded", () => {
+      showSection("food");
+    });
+  </script>
 </html>

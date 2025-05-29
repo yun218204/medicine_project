@@ -31,7 +31,7 @@ connection.connect((err) => {
   if (err) {
     console.error("連線資料庫失敗：", err);
   } else {
-    console.log("✅ 成功連接到 MySQL 資料庫！");
+    console.log("成功連接到 MySQL 資料庫！");
   }
 });
 

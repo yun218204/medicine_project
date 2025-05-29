@@ -7,7 +7,7 @@ let cachedNews = []; // 新聞更新進來後就存進來
 let lastFetched = 0; // 上次更新時間
 
 async function fetchNews() {
-  const API_KEY = process.env.GNEWS_API_KEY; //等我部屬再放到env
+  const API_KEY = process.env.GNEWS_API_KEY;
   const newsUrl = `https://gnews.io/api/v4/top-headlines?country=tw&lang=zh&category=health&max=3&apikey=${API_KEY}`;
   //抓取台灣繁體中文類別為健康的前三筆最新新聞
   try {
